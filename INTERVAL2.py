@@ -27,6 +27,46 @@ end value is smaller than the ith one's end value. They do not overlap with one 
 interval ends before the next one starts i.e (i-1).end < i.start. """
 
 
+""" See : http://world.std.com/~swmcd/steven/tech/interval.html
+How to tell if two intervals intersect
+
+Suppose we have two half-open intervals
+[A, B) [X, Y)
+and we want to know whether they intersect. In any particular case, it's obvious. For example
+[1, 2) [3, 4)	disjoint
+[1, 5) [3, 4)	intersect
+But can we write a rule that covers the general case? Let's see...the first interval could contain the second, or it could overlap on the left, or on the right, or...this is getting complicated...
+Here's how to do it.
+
+There are 24 permutations of the 4 endpoints, but only 6 satisfy the conditions A < B and X < Y. These are
+
+A B X Y 
+A X B Y  intersect
+A X Y B  intersect
+X A B Y  intersect
+X A Y B  intersect
+X Y A B
+The four in the middle intersect, and the two on the ends do not.
+The first is identified by B <= X, a condition that holds for it and no other, and the last is identified by Y <= A, a condition that holds for it and no other. Both comparison have an open bound on the left and a closed bound on the right, so a <= comparison is appropriate.
+
+We can identify the four intersecting cases with the condition
+
+NOT (B <= X OR Y <= A)
+or, distributing the NOT
+X < B AND A < Y 
+
+Here since the keys are sorted by their first value and since we are getting intervals(hence we don't have to retest for 
+correct intervals again, we only need to use the first condition for testing if the pairs are non-overlapping and in the 
+second one we test if B <= Y in the A X B Y combination since we already know that A < X. We are actually trying to create the
+interval from A : Y in these cases.The second condition, A X Y B does not matter because if the second interval X Y is 
+contained in the A B interval we just use the A B interval because we are trying to make merge/union of the intervals.
+
+"""
+
+
+
+
+
 # Definition for an interval.
 # class Interval:
 #     def __init__(self, s=0, e=0):
