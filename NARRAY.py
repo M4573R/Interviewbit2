@@ -34,4 +34,4 @@ class Solution:
                     missing = i + 1
                     
                     
-        return [duplicate,missing
+        return [duplicate,missing]
